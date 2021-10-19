@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 import styled from 'styled-components';
 import { getReviews } from '../utils/api';
+import { Link } from 'react-router-dom';
 
 const ReviewsWrapper = styled.section`
     margin: 60px auto;
@@ -37,12 +38,15 @@ const Reviews = () => {
     const [err, setErr] = useState(null);
     const { category_slug } = useParams();
 
-    console.log(category_slug);
+    const { search } = useLocation();
+
+    let searchParams = new URLSearchParams(search);
+
+    console.log(searchParams);
 
     useEffect(() => {
         setErr(null);
-
-        getReviews(category_slug).then((reviewsFromApi) => {
+        getReviews({ category_slug, search }).then((reviewsFromApi) => {
             setReviews(reviewsFromApi);
             setLoading(false);
         })
@@ -51,9 +55,9 @@ const Reviews = () => {
             if (err.response.status === 404) setErr('Category not found');
             else setErr('Something went wrong :(');
         });
-        
+
         window.scrollTo(0, 0);
-    }, [category_slug]);
+    }, [category_slug, search]);
 
     if (err) {
         return (
@@ -67,6 +71,16 @@ const Reviews = () => {
         <ReviewsWrapper>
             <h1>{category_slug || 'All'}</h1>
             <p>{loading && 'Loading...'}</p>
+            <ul>
+                <li>
+                    <Link to='?sort_by=created_at&order=DESC'>
+                        Date (new)
+                    </Link>
+                </li>
+                <li>Date (old)</li>
+                <li>Title (A-Z)</li>
+                <li>Title (Z-A)</li>
+            </ul>
             <ReviewsList>
                 {reviews.map(review => {
                     return (
@@ -74,7 +88,8 @@ const Reviews = () => {
                             <ListItem>
                                 <h3>{review.title}</h3>
                                 <img src={review.review_img_url} alt={review.title}/>
-                                <p>{review.owner} | {review.category}</p>
+                                <p>{review.owner} | {review.created_at}</p>
+                                <p>{!category_slug && review.category}</p>
                                 <p>{review.votes} Votes | {review.comment_count} comments</p>
                             </ListItem>
                         </li>

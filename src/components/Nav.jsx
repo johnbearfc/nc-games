@@ -47,13 +47,13 @@ const Nav = () => {
                     <MdMenuBook onClick={toggleIsOpen}/>
                 </Link>
                 <StyledNav>
-                    <Link id='BQ-logo' to='/'>
+                    <Link id='BQ-logo' to='/' onClick={() => setIsOpen(false)}>
                         BQ
                     </Link>
-                    <Link to='/reviews'>
+                    <Link to='/' onClick={() => setIsOpen(false)}>
                         New
                     </Link>
-                    <Link to='/users/username'>
+                    <Link to='/' onClick={() => setIsOpen(false)}>
                         Account
                     </Link>
                 </StyledNav>
