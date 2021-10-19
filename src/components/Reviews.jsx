@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router';
 import styled from 'styled-components';
 import { getReviews } from '../utils/api';
 
@@ -25,12 +26,16 @@ const ListItem = styled.div`
 
 const Reviews = () => {
     const [reviews, setReviews] = useState([]);
+    const { category_slug } = useParams();
+
+    console.log(category_slug);
 
     useEffect(() => {
-        getReviews().then((reviewsFromApi) => {
+        getReviews(category_slug).then((reviewsFromApi) => {
             setReviews(reviewsFromApi);
         })
-    }, [])
+        window.scrollTo(0, 0);
+    }, [category_slug])
 
     return (
         <ReviewsList>
