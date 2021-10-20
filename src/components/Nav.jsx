@@ -43,9 +43,9 @@ const Nav = () => {
     return (
         <>
             <NavWrapper>
-                <Link to='#'>
+                <span>
                     <MdMenuBook onClick={toggleIsOpen}/>
-                </Link>
+                </span>
                 <StyledNav>
                     <Link id='BQ-logo' to='/' onClick={() => setIsOpen(false)}>
                         BQ
