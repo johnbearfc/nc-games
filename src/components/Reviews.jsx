@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useLocation, useParams } from 'react-router';
+import { useLocation } from 'react-router';
 import styled from 'styled-components';
 import { getReviews } from '../utils/api';
 import { Link } from 'react-router-dom';
@@ -64,7 +64,7 @@ const Reviews = () => {
         setErr(null);
         setPage(currentParams.get('p') || 1);
 
-        getReviews({ search }).then((reviewsFromApi) => {
+        getReviews(search).then((reviewsFromApi) => {
             setReviewData(reviewsFromApi);
             setLoading(false);
         })
@@ -118,10 +118,10 @@ const Reviews = () => {
                     return (
                         <li key={review.review_id}>
                             <ListItem>
-                                <h3><Link to={`reviews/${review.review_id}`}>{review.title}</Link></h3>
+                                <h3><Link to={`/reviews/${review.review_id}`}>{review.title}</Link></h3>
                                 <img src={review.review_img_url} alt={review.title}/>
                                 <p>{review.owner} | {DateTime.fromISO(review.created_at).toLocaleString()}</p>
-                                <p>{!currentCategory && <Link to={`/reviews/${review.category}`}>{review.category}</Link>}</p>
+                                <p>{!currentCategory && <Link to={`/reviews?category=${review.category}`}>{review.category}</Link>}</p>
                                 <p>{review.votes} Votes | {review.comment_count} comments</p>
                             </ListItem>
                         </li>

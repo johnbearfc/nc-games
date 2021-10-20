@@ -4,7 +4,7 @@ const reviewsApi = axios.create({
     baseURL: 'https://nc-board-quest.herokuapp.com/api',
 });
 
-export const getReviews = async ({ search }) => {
+export const getReviews = async (search) => {
     let path = `/reviews`;
     let parsedParams = new URLSearchParams(search);
 
@@ -18,6 +18,12 @@ export const getReviews = async ({ search }) => {
     });
 
     return data;
+}
+
+export const getSingleReview = async (review_id) => {
+    const { data } = await reviewsApi.get(`/reviews/${review_id}`);
+
+    return data.review;
 }
 
 export const getCategories = async () => {

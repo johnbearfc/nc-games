@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import * as gi from 'react-icons/gi';
 
 const Wrapper = styled.section`
     font-size: 2rem;
@@ -27,7 +28,7 @@ const Header = () => {
         <Wrapper>
             <h1 id='board'>Board</h1>
             <h1 id='quest'>Quest</h1>
-            <button>🎲</button>
+            <button><gi.GiPerspectiveDiceSixFacesSix/></button>
         </Wrapper>
     );
 }
