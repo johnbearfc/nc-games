@@ -65,7 +65,7 @@ const Categories = ({ isOpen, toggleIsOpen }) => {
                     {categories.map(category => {
                         return (
                             <li className='nav-option' key={category.slug}>
-                                <Link to={`/reviews/${category.slug}`} onClick={toggleIsOpen}>
+                                <Link to={`/reviews?category=${category.slug}`} onClick={toggleIsOpen}>
                                     {category.slug}
                                 </Link>
                             </li>

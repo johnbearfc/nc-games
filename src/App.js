@@ -15,7 +15,7 @@ function App() {
         <Route exact path='/reviews'>
           <Reviews />
         </Route>
-        <Route exact path='/reviews/:category_slug'>
+        <Route exact path='/reviews/:review_id'>
           <Reviews />
         </Route>
       </Switch>

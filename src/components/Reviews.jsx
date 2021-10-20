@@ -55,17 +55,16 @@ const Reviews = () => {
     const [loading, setLoading] = useState(true);
     const [err, setErr] = useState(null);
     const [page, setPage] = useState(1);
-    // const [searchParams, setSearchParams] = useState('');
-    const { category_slug } = useParams();
+    // const { category_slug } = useParams();
     const { search } = useLocation();
+    const currentParams = new URLSearchParams(search);
+    const currentCategory = currentParams.get('category');
 
     useEffect(() => {
         setErr(null);
-        const currentPage = new URLSearchParams(search);
-        setPage(currentPage.get('p') || 1);
-        // setSearchParams(search ? `${search}&p=${page}` : `?p=${page}`);
+        setPage(currentParams.get('p') || 1);
 
-        getReviews({ category_slug, search }).then((reviewsFromApi) => {
+        getReviews({ search }).then((reviewsFromApi) => {
             setReviewData(reviewsFromApi);
             setLoading(false);
         })
@@ -76,7 +75,7 @@ const Reviews = () => {
         });
 
         window.scrollTo(0, 0);
-    }, [search, category_slug, page]);
+    }, [search, page]);
 
     if (err) {
         return (
@@ -88,27 +87,27 @@ const Reviews = () => {
 
     return (
         <ReviewsWrapper>
-            <Link to={category_slug ? `reviews/${category_slug}` : '/reviews'}>
-                <h1>{category_slug || 'All'}</h1>
+            <Link to={currentCategory ? `?category=${currentCategory}` : '/reviews'}>
+                <h1>{currentCategory || 'All'}</h1>
             </Link>
             <ul className='sort-list'>
                 <li>
-                    <Link className='sort-item' to='?sort_by=created_at&order=DESC'>
+                    <Link className='sort-item' to={`?${currentCategory ? `category=${currentCategory}&` : ''}sort_by=created_at&order=DESC`}>
                         <fa.FaRegCalendarAlt/><fa.FaLongArrowAltDown/>
                     </Link>
                 </li>
                 <li>
-                    <Link className='sort-item' to='?sort_by=created_at&order=ASC'>
+                    <Link className='sort-item' to={`?${currentCategory ? `category=${currentCategory}&` : ''}sort_by=created_at&order=ASC`}>
                         <fa.FaRegCalendarAlt/><fa.FaLongArrowAltUp/>
                     </Link>
                 </li>
                 <li>
-                    <Link className='sort-item' to='?sort_by=title&order=ASC'>
+                    <Link className='sort-item' to={`?${currentCategory ? `category=${currentCategory}&` : ''}sort_by=title&order=ASC`}>
                         <fa.FaSortAlphaDown/>
                     </Link>
                 </li>
                 <li>
-                    <Link className='sort-item' to='?sort_by=title&order=DESC'>
+                    <Link className='sort-item' to={`?${currentCategory ? `category=${currentCategory}&` : ''}sort_by=title&order=DESC`}>
                         <fa.FaSortAlphaDownAlt/>
                     </Link>
                 </li>
@@ -119,10 +118,10 @@ const Reviews = () => {
                     return (
                         <li key={review.review_id}>
                             <ListItem>
-                                <h3>{review.title}</h3>
+                                <h3><Link to={`reviews/${review.review_id}`}>{review.title}</Link></h3>
                                 <img src={review.review_img_url} alt={review.title}/>
                                 <p>{review.owner} | {DateTime.fromISO(review.created_at).toLocaleString()}</p>
-                                <p>{!category_slug && <Link to={`/reviews/${review.category}`}>{review.category}</Link>}</p>
+                                <p>{!currentCategory && <Link to={`/reviews/${review.category}`}>{review.category}</Link>}</p>
                                 <p>{review.votes} Votes | {review.comment_count} comments</p>
                             </ListItem>
                         </li>
