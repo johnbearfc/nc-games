@@ -5,6 +5,7 @@ import { getReviews } from '../utils/api';
 import { Link } from 'react-router-dom';
 import * as fa from 'react-icons/fa';
 import { DateTime } from 'luxon';
+import { pagination } from '../utils/pagination';
 
 const ReviewsWrapper = styled.section`
     margin: 60px auto;
@@ -49,22 +50,14 @@ const ListItem = styled.div`
     }
 `
 
-const PagesWrapper = styled.nav`
-
-`
-
 const Reviews = () => {
     const [reviewData, setReviewData] = useState({reviews: [], total_count: null});
     const [loading, setLoading] = useState(true);
     const [err, setErr] = useState(null);
     const [page, setPage] = useState(1);
-    const [searchParams, setSearchParams] = useState('');
+    // const [searchParams, setSearchParams] = useState('');
     const { category_slug } = useParams();
     const { search } = useLocation();
-
-    console.log(searchParams, 'searchParams');
-    console.log(search, 'search');
-    console.log(page, 'page');
 
     useEffect(() => {
         setErr(null);
@@ -83,7 +76,7 @@ const Reviews = () => {
         });
 
         window.scrollTo(0, 0);
-    }, [search, category_slug, searchParams, page]);
+    }, [search, category_slug, page]);
 
     if (err) {
         return (
@@ -91,29 +84,6 @@ const Reviews = () => {
                 <p>{err}</p>
             </ReviewsWrapper>
         );
-    }
-
-    const pagination = () => {
-        const totalPages = Math.ceil(reviewData.total_count / 10);
-        const previousPage = new URLSearchParams(search);
-        const nextPage = new URLSearchParams(search);
-
-        previousPage.set('p', Number(page) - 1);
-        nextPage.set('p', Number(page) + 1);
-
-        // console.log(nextPage.toString(), 'pagination');
-
-        return (
-            <PagesWrapper>
-                <Link to={'?' + previousPage.toString()}>
-                    <button disabled={page <= 1}>previous</button>
-                </Link>
-                <span>{page}/{totalPages}</span>
-                <Link to={'?' + nextPage.toString()}>
-                    <button disabled={page === totalPages}>next</button>
-                </Link>
-            </PagesWrapper>
-        )
     }
 
     return (
@@ -159,7 +129,7 @@ const Reviews = () => {
                     )
                 })}
             </ReviewsList>
-            {reviewData.total_count > 10 ? pagination() : null}
+            {reviewData.total_count > 10 ? pagination(search, page, reviewData) : null}
         </ReviewsWrapper>
     )
 }
