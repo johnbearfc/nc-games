@@ -56,13 +56,20 @@ const ListItem = styled.div`
     }
 `;
 
-const Home = ({ reviewData, setReviewData }) => {
+const Home = ({ reviewData, setReviewData, loading, setLoading, err, setErr }) => {
 
     useEffect(() => {
+        setErr(null);
+
         getReviews('?limit=3').then((reviewsFromApi) => {
             setReviewData(reviewsFromApi);
+            setLoading(false);
         })
-    }, [setReviewData])
+        .catch((err) => {
+            setLoading(false);
+            setErr('Something went wrong :(');
+        });
+    }, [setReviewData, setErr, setLoading])
 
     return (
         <Wrapper>
@@ -73,21 +80,23 @@ const Home = ({ reviewData, setReviewData }) => {
             </header>
             <section className='featured-reviews'>
                 <h2>Featured Reviews:</h2>
+                <p>{loading && 'Loading...'}</p>
+                <p>{err && err}</p>
                 <ReviewsList>
-                {reviewData.reviews.map(review => {
-                    return (
-                        <li key={review.review_id}>
-                            <ListItem>
-                                <h3><Link to={`/reviews/${review.review_id}`}>{review.title}</Link></h3>
-                                <img src={review.review_img_url} alt={review.title}/>
-                                <p>{review.owner} | {DateTime.fromISO(review.created_at).toLocaleString()}</p>
-                                <p><Link to={`/reviews?category=${review.category}`}>{review.category}</Link></p>
-                                <p>{review.votes} Votes | {review.comment_count} comments</p>
-                            </ListItem>
-                        </li>
-                    )
-                })}
-            </ReviewsList>
+                    {reviewData.reviews.map(review => {
+                        return (
+                            <li key={review.review_id}>
+                                <ListItem>
+                                    <h3><Link to={`/reviews/${review.review_id}`}>{review.title}</Link></h3>
+                                    <img src={review.review_img_url} alt={review.title}/>
+                                    <p>{review.owner} | {DateTime.fromISO(review.created_at).toLocaleString()}</p>
+                                    <p><Link to={`/reviews?category=${review.category}`}>{review.category}</Link></p>
+                                    <p>{review.votes} Votes | {review.comment_count} comments</p>
+                                </ListItem>
+                            </li>
+                        )
+                    })}
+                </ReviewsList>
             </section>
         </Wrapper>
     );

@@ -50,9 +50,7 @@ const ListItem = styled.div`
     }
 `
 
-const Reviews = ({ reviewData, setReviewData }) => {
-    const [loading, setLoading] = useState(true);
-    const [err, setErr] = useState(null);
+const Reviews = ({ reviewData, setReviewData, loading, setLoading, err, setErr }) => {
     const [page, setPage] = useState(1);
     const { search } = useLocation();
     const currentParams = new URLSearchParams(search);
@@ -74,7 +72,7 @@ const Reviews = ({ reviewData, setReviewData }) => {
         });
 
         window.scrollTo(0, 0);
-    }, [search, page, currentPage, setReviewData]);
+    }, [search, page, currentPage, setReviewData, setLoading, setErr]);
 
     if (err) {
         return (
