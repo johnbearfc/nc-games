@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { UserContext } from '../contexts/User';
 
 const Wrapper = styled.section`
     .side-nav {
@@ -27,7 +28,7 @@ const Wrapper = styled.section`
         transition: 0.5s;
     }
 
-    .category-list {
+    .account-list {
         text-transform: capitalize;
         padding: 0;
         margin: 0;
@@ -44,16 +45,37 @@ const Wrapper = styled.section`
 `
 
 const AccountOptions = ({ isOpen, toggleIsOpen }) => {
+    const { user, setUser } = useContext(UserContext);
+
     return (
         <Wrapper>
             <nav className={isOpen.accountToggle ? 'side-nav active' : 'side-nav'}>
-                <ul className='category-list'>
-                    <li className='nav-option'>
-                        <Link to='/login' onClick={() => toggleIsOpen('accountToggle')}>
-                            Log In / Create Account
-                        </Link>
-                    </li>
-                </ul>
+                    {!user ? 
+                        <ul className='account-list'>
+                            <li className='nav-option'>
+                                <Link to='/login' onClick={() => toggleIsOpen('accountToggle')}>
+                                    Log In / Create Account
+                                </Link>
+                            </li>
+                        </ul>
+                        :
+                        <ul className='account-list'>
+                            <li className='nav-option'>
+                                <Link to={`/users/${user.username}`} onClick={() => toggleIsOpen('accountToggle')}>
+                                    Profile
+                                </Link>
+                            </li>
+                            <li className='nav-option'>
+                                <span onClick={() => {
+                                        toggleIsOpen('accountToggle');
+                                        setUser(null);
+                                    }
+                                }>
+                                    Log Out
+                                </span>
+                            </li>
+                        </ul>
+                    }
             </nav>
         </Wrapper>
     )

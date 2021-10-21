@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import * as gi from 'react-icons/gi';
 import { getReviews } from '../utils/api';
 import { Link } from 'react-router-dom';
 import { DateTime } from 'luxon';
+import { UserContext } from '../contexts/User';
 
 const Wrapper = styled.section`
 
@@ -14,7 +15,7 @@ const Wrapper = styled.section`
         width: 50%;
         margin: auto;
         padding-top: 96px;
-        padding-bottom: 96px;
+        padding-bottom: 25px;
         text-align: center;
     
         #board {
@@ -24,6 +25,11 @@ const Wrapper = styled.section`
         #quest {
             padding-left: 30px
         }
+    }
+
+    #welcome-message {
+        font-size: 1rem;
+        line-height: 1;
     }
     
     .featured-reviews {
@@ -57,6 +63,7 @@ const ListItem = styled.div`
 `;
 
 const Home = ({ reviewData, setReviewData, loading, setLoading, err, setErr }) => {
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
         setErr(null);
@@ -77,6 +84,7 @@ const Home = ({ reviewData, setReviewData, loading, setLoading, err, setErr }) =
                 <h1 id='board'>Board</h1>
                 <h1 id='quest'>Quest</h1>
                 <button><gi.GiPerspectiveDiceSixFacesSix/></button>
+                {user && <p id='welcome-message'>Welcome, {user.username}</p>}   
             </header>
             <section className='featured-reviews'>
                 <h2>Featured Reviews:</h2>

@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useState } from 'react';
+import { Redirect } from 'react-router';
 import styled from 'styled-components';
+import { UserContext } from '../contexts/User';
 import { getUser } from '../utils/api';
 
 const Wrapper = styled.section`
@@ -14,23 +16,27 @@ const Wrapper = styled.section`
 
 const LogIn = ({ err, setErr }) => {
     const [usernameInput, setUsernameInput] = useState('');
+    const { user, setUser } = useContext(UserContext);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setErr(null);
-        
+
         getUser(usernameInput).then((userFromApi) => {
-            console.log(userFromApi);
+            setUser(userFromApi);
         })
         .catch((err) => {
             if (err.response.status === 404) setErr('User not found');
             else setErr('Something went wrong :(');
         })
+
+        setUsernameInput('');
     }
 
     return (
         <Wrapper>
             <h2>Welcome</h2>
+            <p>(test user: tickle122)</p>
             <form onSubmit={handleSubmit}>
                 <label htmlFor='username'>Username:</label>
                 <input 
@@ -38,9 +44,14 @@ const LogIn = ({ err, setErr }) => {
                     type='text' 
                     id='username' 
                     value={usernameInput} 
-                    onChange={(e) => setUsernameInput(e.target.value)}/>
+                    onChange={(e) => {
+                            setUsernameInput(e.target.value);
+                            setErr(null);
+                        }
+                    }/>
                 <button type='submit'>Log In</button>
                 {err && <p>{err}</p>}
+                {user && <Redirect to='/'/>}
             </form>
         </Wrapper>
     )
