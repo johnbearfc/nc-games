@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { MdMenuBook } from 'react-icons/md';
 import { useState } from 'react';
 import Categories from './Categories';
+import AccountOptions from './AccountOptions';
 
 const StyledNav = styled.nav`
     font-size: 1rem;
@@ -37,14 +38,23 @@ const NavWrapper = styled.section`
 `
 
 const Nav = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const toggleIsOpen = () => setIsOpen(!isOpen);
+    const [isOpen, setIsOpen] = useState({});
+
+
+    const toggleIsOpen = (navOption, closeOption) => setIsOpen((currToggle) => {
+        const setToggle = {...currToggle};
+
+        setToggle[navOption] = !setToggle[navOption];
+        setToggle[closeOption] = false;
+
+        return setToggle;
+    });
 
     return (
         <>
             <NavWrapper>
                 <span>
-                    <MdMenuBook onClick={toggleIsOpen}/>
+                    <MdMenuBook onClick={() => toggleIsOpen('categoryToggle', 'accountToggle')}/>
                 </span>
                 <StyledNav>
                     <Link id='BQ-logo' to='/' onClick={() => setIsOpen(false)}>
@@ -53,12 +63,13 @@ const Nav = () => {
                     <Link to='/' onClick={() => setIsOpen(false)}>
                         New
                     </Link>
-                    <Link to='/' onClick={() => setIsOpen(false)}>
+                    <span onClick={() => toggleIsOpen('accountToggle', 'categoryToggle')}>
                         Account
-                    </Link>
+                    </span>
                 </StyledNav>
             </NavWrapper>
             <Categories isOpen={isOpen} toggleIsOpen={toggleIsOpen}/>
+            <AccountOptions isOpen={isOpen} toggleIsOpen={toggleIsOpen}/>
         </>
     );
 }

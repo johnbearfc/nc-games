@@ -55,17 +55,17 @@ const Categories = ({ isOpen, toggleIsOpen }) => {
 
     return (
         <Wrapper>
-            <nav className={isOpen? 'side-nav active' : 'side-nav'}>
+            <nav className={isOpen.categoryToggle ? 'side-nav active' : 'side-nav'}>
                 <ul className='category-list'>
                     <li className='nav-option'>
-                        <Link to={'/reviews/'} onClick={toggleIsOpen}>
+                        <Link to={'/reviews/'} onClick={() => toggleIsOpen('categoryToggle')}>
                             All
                         </Link>
                     </li>
                     {categories.map(category => {
                         return (
                             <li className='nav-option' key={category.slug}>
-                                <Link to={`/reviews?category=${category.slug}`} onClick={toggleIsOpen}>
+                                <Link to={`/reviews?category=${category.slug}`} onClick={() => toggleIsOpen('categoryToggle')}>
                                     {category.slug}
                                 </Link>
                             </li>
