@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { getSingleReview } from '../utils/api';
+import { getSingleReview, patchReviewVotes } from '../utils/api';
 import { Link } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import styled from 'styled-components';
 import ReviewComments from './ReviewComments';
+import * as cg from 'react-icons/cg';
+import { UserContext } from '../contexts/User';
 
 const ReviewWrapper = styled.section`
     background-color: lightgrey;
@@ -26,17 +28,54 @@ const ReviewWrapper = styled.section`
         background-color: white;
         padding: 5px;
     }
+
+    .votes {
+        border: 1px solid;
+        border-radius: 5px;
+        padding: 5px;
+        width: 20%;
+        margin-left: 80%;
+        text-align: center;
+    }
 `;
 
-const SelectedReview = () => {
+const SelectedReview = ({ loading, setLoading, err, setErr }) => {
     const [review, setReview] = useState({});
+    const [reviewVoteChange, setReviewVoteChange] = useState(0);
     const { review_id } = useParams();
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
+        setErr(null);
+
         getSingleReview(review_id).then((reviewFromApi) => {
             setReview(reviewFromApi);
+            setLoading(false);
         })
-    }, [review_id]);
+        .catch((err) => {
+            setLoading(false);
+            if (err.response.status === 404) setErr('Review not found');
+            else setErr('Something went wrong :(');
+        });
+
+    }, [review_id, setErr, setLoading]);
+
+    const handleReviewVote = (e) => {
+        e.preventDefault()
+        if (!user) alert('log in to vote');
+        else {
+            setReviewVoteChange((currVoteChange) => currVoteChange + 1);
+            patchReviewVotes(review_id);
+        }
+    }
+
+    if (err || loading) {
+        return (
+            <ReviewWrapper>
+                <p>{err || 'Loading...'}</p>
+            </ReviewWrapper>
+        );
+    }
 
     return (
         <ReviewWrapper>
@@ -46,8 +85,10 @@ const SelectedReview = () => {
                 <p>{review.owner} | {DateTime.fromISO(review.created_at).toLocaleString()}</p>
                 <p><Link to={`/reviews?category=${review.category}`}>{review.category}</Link></p>
                 <p className='review-body'>{review.review_body}</p>
-                <p>{review.votes} Votes | {review.comment_count} comments</p>
-            <ReviewComments review_id={review_id}/>
+
+                <button className='votes' onClick={handleReviewVote}><cg.CgCardHearts/>{review.votes + reviewVoteChange}</button>
+
+            <ReviewComments review_id={review_id} commentCount={review.comment_count}/>
             </section>
         </ReviewWrapper>
     );

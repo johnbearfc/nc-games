@@ -41,3 +41,19 @@ export const getUser = async (username) => {
     const { data } = await reviewsApi.get(`/users/${username}`);
     return data.user;
 }
+
+export const patchReviewVotes = async (review_id) => {
+    await reviewsApi.patch(`/reviews/${review_id}`, { inc_votes: 1 });
+}
+
+export const patchCommentVotes = async (comment_id) => {
+    await reviewsApi.patch(`/comments/${comment_id}`, { inc_votes: 1 });
+}
+
+export const postComment = async (review_id, username, body) => {
+    await reviewsApi.post(`/reviews/${review_id}/comments`, { username, body });
+}
+
+export const deleteComment = async (comment_id) => {
+    await reviewsApi.delete(`/comments/${comment_id}`);
+}

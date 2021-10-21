@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import { getComments } from '../utils/api';
 import PostComment from './PostComment';
+import SingleComment from './SingleComment';
 
 const CommentsWrapper = styled.section`
 
@@ -12,15 +13,17 @@ const CommentsWrapper = styled.section`
 
     li {
         border-top: 1px solid;
+        margin: 5px 0 5px 0;
     }
 
     .comment-body {
         padding: 5px;
         background-color: white;
     }
-`
 
-const ReviewComments = ({ review_id }) => {
+`;
+
+const ReviewComments = ({ review_id, commentCount }) => {
     const [comments, setComments] = useState([]);
 
     useEffect(() => {
@@ -32,14 +35,12 @@ const ReviewComments = ({ review_id }) => {
     return (
         <CommentsWrapper>
             <PostComment review_id={review_id}/>
+            <h3>Comments ({commentCount})</h3>
             <ul>
                 {comments.map(comment => {
                     return (
                         <li key={comment.comment_id}>
-                            <p>{comment.author}</p> 
-                            <p>{comment.created_at}</p> 
-                            <p className='comment-body'>{comment.body}</p> 
-                            <p>Votes: {comment.votes}</p> 
+                            <SingleComment comment={comment}/>
                         </li>
                     )
                 })}

@@ -1,5 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { useState } from 'react';
 import styled from 'styled-components'
+import { UserContext } from '../contexts/User';
+import { postComment } from '../utils/api';
 
 const CommentWrapper = styled.div`
 
@@ -10,6 +13,7 @@ const CommentWrapper = styled.div`
         position: fixed;
         bottom: 0;
         left: 0;
+        border-radius: 5px 5px 0 0;
     }
 
     form {
@@ -22,13 +26,38 @@ const CommentWrapper = styled.div`
 `
 
 const PostComment = ({ review_id }) => {
+    const [commentInput, setCommentInput] = useState('');
+    const { user } = useContext(UserContext);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // setErr(null);
+
+        postComment(review_id, user.username, commentInput)
+        // .catch((err) => {
+        //     setErr('Something went wrong :(');
+        // })
+
+        setCommentInput('');
+    }
 
     return (
         <CommentWrapper id='comment-box' >
-            <form>
+            <form onSubmit={handleSubmit}>
                 <label htmlFor='comment'/>
-                <input type='text' id='comment' placeholder='comment...'/>
-                <button>Post</button>
+                <input 
+                    required 
+                    type='text' 
+                    id='comment' 
+                    placeholder={user ? 'comment...' : 'log in to comment'} 
+                    disabled={!user}
+                    onChange={(e) => {
+                        setCommentInput(e.target.value);
+                        // setErr(null);
+                    }
+                }
+                />
+                <button disabled={!user} type='submit'>Post</button>
             </form>
         </CommentWrapper>
     )

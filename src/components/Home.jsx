@@ -76,6 +76,8 @@ const Home = ({ reviewData, setReviewData, loading, setLoading, err, setErr }) =
             setLoading(false);
             setErr('Something went wrong :(');
         });
+
+        window.scrollTo(0, 0);
     }, [setReviewData, setErr, setLoading])
 
     return (
