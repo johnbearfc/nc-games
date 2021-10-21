@@ -14,6 +14,7 @@ export const getReviews = async (search) => {
             sort_by: parsedParams.get('sort_by') || 'created_at',
             order: parsedParams.get('order') || 'DESC',
             p: parsedParams.get('p'),
+            limit: parsedParams.get('limit'),
         }
     });
 
@@ -29,4 +30,9 @@ export const getSingleReview = async (review_id) => {
 export const getCategories = async () => {
     const { data } = await reviewsApi.get('/categories');
     return data.categories;
+}
+
+export const getComments = async (review_id) => {
+    const { data } = await reviewsApi.get(`/reviews/${review_id}/comments`);
+    return data.comments;
 }

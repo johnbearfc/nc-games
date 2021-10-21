@@ -50,19 +50,18 @@ const ListItem = styled.div`
     }
 `
 
-const Reviews = () => {
-    const [reviewData, setReviewData] = useState({reviews: [], total_count: null});
+const Reviews = ({ reviewData, setReviewData }) => {
     const [loading, setLoading] = useState(true);
     const [err, setErr] = useState(null);
     const [page, setPage] = useState(1);
-    // const { category_slug } = useParams();
     const { search } = useLocation();
     const currentParams = new URLSearchParams(search);
+    const currentPage = currentParams.get('p');
     const currentCategory = currentParams.get('category');
 
     useEffect(() => {
         setErr(null);
-        setPage(currentParams.get('p') || 1);
+        setPage(currentPage || 1);
 
         getReviews(search).then((reviewsFromApi) => {
             setReviewData(reviewsFromApi);
@@ -75,7 +74,7 @@ const Reviews = () => {
         });
 
         window.scrollTo(0, 0);
-    }, [search, page]);
+    }, [search, page, currentPage, setReviewData]);
 
     if (err) {
         return (
