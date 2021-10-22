@@ -35,7 +35,7 @@ const LogIn = ({ err, setErr }) => {
 
     return (
         <Wrapper>
-            <h2>Welcome</h2>
+            <h2>Log In</h2>
             <p>(test user: tickle122)</p>
             <form onSubmit={handleSubmit}>
                 <label htmlFor='username'>Username:</label>

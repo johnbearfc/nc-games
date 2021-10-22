@@ -6,6 +6,7 @@ import Nav from "./components/Nav";
 import NewReview from "./components/NewReview";
 import Reviews from "./components/Reviews";
 import SelectedReview from "./components/SelectedReview";
+import { UserProfile } from "./components/UserProfile";
 
 function App() {
   const [reviewData, setReviewData] = useState({reviews: [], total_count: null});
@@ -45,6 +46,9 @@ function App() {
           <LogIn
           err={err} setErr={setErr}
           />
+        </Route>
+        <Route exact path='/users/:username'>
+          <UserProfile/>
         </Route>
       </Switch>
     </div>
