@@ -9,7 +9,6 @@ import * as cg from 'react-icons/cg';
 import { UserContext } from '../contexts/User';
 
 const ReviewWrapper = styled.section`
-    background-color: lightgrey;
     margin: 50px 0 20px 0;
     
     .review-section {

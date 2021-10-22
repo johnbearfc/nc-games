@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Switch, Route } from "react-router";
+import styled from "styled-components";
 import Home from "./components/Home";
 import LogIn from "./components/LogIn";
 import Nav from "./components/Nav";
@@ -8,13 +9,32 @@ import Reviews from "./components/Reviews";
 import SelectedReview from "./components/SelectedReview";
 import { UserProfile } from "./components/UserProfile";
 
+const AppWrapper = styled.main`
+  background-color: #fffcf2;
+  color: #252422;
+
+  font-family: georgia;
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: 'IM Fell English SC', serif;
+  }
+
+  .nav-link {
+    color: black;
+    text-decoration: none;
+  }
+`
+
 function App() {
   const [reviewData, setReviewData] = useState({reviews: [], total_count: null});
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState(null);
 
   return (
-    <div className="App">
+    <AppWrapper className="App">
       <Nav/>
       <Switch>
         <Route exact path='/'>
@@ -51,7 +71,7 @@ function App() {
           <UserProfile/>
         </Route>
       </Switch>
-    </div>
+    </AppWrapper>
   );
 }
 

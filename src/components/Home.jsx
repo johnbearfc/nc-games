@@ -10,21 +10,21 @@ const Wrapper = styled.section`
 
     header {
         font-family: 'IM Fell English SC', serif;
-        font-size: 2rem;
+        font-size: 2.5rem;
         line-height: 0;
     
-        width: 50%;
+        width: 80%;
         margin: auto;
         padding-top: 96px;
         padding-bottom: 25px;
         text-align: center;
     
         #board {
-            padding-right: 30px
+            padding-right: 30px;
         }
         
         #quest {
-            padding-left: 30px
+            padding-left: 30px;
         }
     }
 
@@ -86,7 +86,7 @@ const Home = ({ reviewData, setReviewData, loading, setLoading, err, setErr }) =
             <header>
                 <h1 id='board'>Board</h1>
                 <h1 id='quest'>Quest</h1>
-                <Link to={`/reviews/${Math.ceil(Math.random() * Number(reviewData.total_count))}`}><gi.GiPerspectiveDiceSixFacesSix/></Link>
+                <Link className='nav-link' to={`/reviews/${Math.ceil(Math.random() * Number(reviewData.total_count))}`}><gi.GiPerspectiveDiceSixFacesThree/></Link>
                 {user && <p id='welcome-message'>Welcome, {user.username}</p>}   
             </header>
             <section className='featured-reviews'>
