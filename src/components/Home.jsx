@@ -79,14 +79,14 @@ const Home = ({ reviewData, setReviewData, loading, setLoading, err, setErr }) =
         });
 
         window.scrollTo(0, 0);
-    }, [setReviewData, setErr, setLoading])
+    }, [setReviewData, setErr, setLoading]);
 
     return (
         <Wrapper>
             <header>
                 <h1 id='board'>Board</h1>
                 <h1 id='quest'>Quest</h1>
-                <button><gi.GiPerspectiveDiceSixFacesSix/></button>
+                <Link to={`/reviews/${Math.ceil(Math.random() * Number(reviewData.total_count))}`}><gi.GiPerspectiveDiceSixFacesSix/></Link>
                 {user && <p id='welcome-message'>Welcome, {user.username}</p>}   
             </header>
             <section className='featured-reviews'>
