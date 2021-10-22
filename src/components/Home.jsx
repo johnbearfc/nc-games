@@ -37,6 +37,7 @@ const Wrapper = styled.section`
         width: 80%;
         margin: auto;
         border: 1px solid;
+        border-radius: 5px;
         padding: 5px;
     }
     

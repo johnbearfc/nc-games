@@ -23,7 +23,7 @@ const AppWrapper = styled.main`
   }
 
   .nav-link {
-    color: black;
+    color: #252422;
     text-decoration: none;
   }
 `
