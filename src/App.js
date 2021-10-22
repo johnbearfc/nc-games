@@ -3,6 +3,7 @@ import { Switch, Route } from "react-router";
 import Home from "./components/Home";
 import LogIn from "./components/LogIn";
 import Nav from "./components/Nav";
+import NewReview from "./components/NewReview";
 import Reviews from "./components/Reviews";
 import SelectedReview from "./components/SelectedReview";
 
@@ -27,6 +28,11 @@ function App() {
             reviewData={reviewData} setReviewData={setReviewData}
             loading={loading} setLoading={setLoading}
             err={err} setErr={setErr}
+          />
+        </Route>
+        <Route exact path='/reviews/submit'>
+          <NewReview
+          err={err} setErr={setErr}
           />
         </Route>
         <Route exact path='/reviews/:review_id'>
