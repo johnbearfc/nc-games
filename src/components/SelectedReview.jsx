@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { getSingleReview, patchReviewVotes } from '../utils/api';
+import { deleteReview, getSingleReview, patchReviewVotes } from '../utils/api';
 import { Link } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import styled from 'styled-components';
@@ -42,6 +42,7 @@ const ReviewWrapper = styled.section`
 const SelectedReview = ({ loading, setLoading, err, setErr }) => {
     const [review, setReview] = useState({});
     const [reviewVoteChange, setReviewVoteChange] = useState(0);
+    const [reviewDeleted, setReviewDeleted] = useState(false);
     const { review_id } = useParams();
     const { user } = useContext(UserContext);
 
@@ -69,10 +70,25 @@ const SelectedReview = ({ loading, setLoading, err, setErr }) => {
         }
     }
 
+    const handleDeleteReview = () => {
+        deleteReview(review_id)
+        .then(() => {
+            setReviewDeleted(true);
+        })
+    }
+
     if (err || loading) {
         return (
             <ReviewWrapper>
                 <p>{err || 'Loading...'}</p>
+            </ReviewWrapper>
+        );
+    }
+
+    if (reviewDeleted) {
+        return (
+            <ReviewWrapper>
+                <p>Review Deleted!</p>
             </ReviewWrapper>
         );
     }
@@ -88,6 +104,7 @@ const SelectedReview = ({ loading, setLoading, err, setErr }) => {
 
                 <button className='votes' onClick={handleReviewVote}><cg.CgCardHearts/>{review.votes + reviewVoteChange}</button>
 
+                {user && review.owner === user.username ? <button onClick={handleDeleteReview}>Delete</button> : null}
             <ReviewComments review_id={review_id} commentCount={review.comment_count}/>
             </section>
         </ReviewWrapper>

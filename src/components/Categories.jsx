@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { getCategories } from '../utils/api';
 
 const Wrapper = styled.section`
     .side-nav {
@@ -44,15 +43,7 @@ const Wrapper = styled.section`
       }
 `
 
-const Categories = ({ isOpen, toggleIsOpen }) => {
-    const [categories, setCategories] = useState([]);
-
-    useEffect(() => {
-        getCategories().then((categoriesFromApi) => {
-            setCategories(categoriesFromApi);
-        })
-    }, []);
-
+const Categories = ({ isOpen, toggleIsOpen, categories }) => {
     return (
         <Wrapper>
             <nav className={isOpen.categoryToggle ? 'side-nav active' : 'side-nav'}>

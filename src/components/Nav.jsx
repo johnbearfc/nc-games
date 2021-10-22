@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { MdMenuBook } from 'react-icons/md';
 import { useState } from 'react';
 import Categories from './Categories';
 import AccountOptions from './AccountOptions';
+import { UserContext } from '../contexts/User';
+import { getCategories } from '../utils/api';
 
 const StyledNav = styled.nav`
     font-size: 1rem;
@@ -39,7 +41,14 @@ const NavWrapper = styled.section`
 
 const Nav = () => {
     const [isOpen, setIsOpen] = useState({});
+    const { user } = useContext(UserContext);
+    const [categories, setCategories] = useState([]);
 
+    useEffect(() => {
+        getCategories().then((categoriesFromApi) => {
+            setCategories(categoriesFromApi);
+        })
+    }, []);
 
     const toggleIsOpen = (navOption, closeOption) => setIsOpen((currToggle) => {
         const setToggle = {...currToggle};
@@ -60,7 +69,16 @@ const Nav = () => {
                     <Link id='BQ-logo' to='/' onClick={() => setIsOpen(false)}>
                         BQ
                     </Link>
-                    <Link to='/reviews/submit' onClick={() => setIsOpen(false)}>
+                    <Link 
+                        to={!user ?
+                        '/login'
+                        :
+                        {
+                        pathname: '/reviews/submit', 
+                        state: { categories }
+                        }} 
+                        onClick={() => setIsOpen(false)}
+                        >
                         New
                     </Link>
                     <span onClick={() => toggleIsOpen('accountToggle', 'categoryToggle')}>
@@ -68,7 +86,7 @@ const Nav = () => {
                     </span>
                 </StyledNav>
             </NavWrapper>
-            <Categories isOpen={isOpen} toggleIsOpen={toggleIsOpen}/>
+            <Categories isOpen={isOpen} toggleIsOpen={toggleIsOpen} categories={categories}/>
             <AccountOptions isOpen={isOpen} toggleIsOpen={toggleIsOpen}/>
         </>
     );
