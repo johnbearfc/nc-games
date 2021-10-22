@@ -9,6 +9,7 @@ import { UserContext } from '../contexts/User';
 const Wrapper = styled.section`
 
     header {
+        font-family: 'IM Fell English SC', serif;
         font-size: 2rem;
         line-height: 0;
     

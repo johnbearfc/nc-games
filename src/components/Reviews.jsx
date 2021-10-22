@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { getReviews } from '../utils/api';
 import { Link } from 'react-router-dom';
 import * as fa from 'react-icons/fa';
+import * as cg from 'react-icons/cg';
 import { DateTime } from 'luxon';
 import { pagination } from '../utils/pagination';
 
@@ -99,13 +100,13 @@ const Reviews = ({ reviewData, setReviewData, loading, setLoading, err, setErr }
                     </Link>
                 </li>
                 <li>
-                    <Link className='sort-item' to={`?${currentCategory ? `category=${currentCategory}&` : ''}sort_by=title&order=ASC`}>
-                        <fa.FaSortAlphaDown/>
+                    <Link className='sort-item' to={`?${currentCategory ? `category=${currentCategory}&` : ''}sort_by=votes&order=DESC`}>
+                        <cg.CgCardHearts/>
                     </Link>
                 </li>
                 <li>
-                    <Link className='sort-item' to={`?${currentCategory ? `category=${currentCategory}&` : ''}sort_by=title&order=DESC`}>
-                        <fa.FaSortAlphaDownAlt/>
+                    <Link className='sort-item' to={`?${currentCategory ? `category=${currentCategory}&` : ''}sort_by=comment_count&order=DESC`}>
+                        <fa.FaRegComments/>
                     </Link>
                 </li>
             </ul>
@@ -119,7 +120,7 @@ const Reviews = ({ reviewData, setReviewData, loading, setLoading, err, setErr }
                                 <img src={review.review_img_url} alt={review.title}/>
                                 <p>{review.owner} | {DateTime.fromISO(review.created_at).toLocaleString()}</p>
                                 <p>{!currentCategory && <Link to={`/reviews?category=${review.category}`}>{review.category}</Link>}</p>
-                                <p>{review.votes} Votes | {review.comment_count} comments</p>
+                                <p><cg.CgCardHearts/>{review.votes} | <fa.FaRegComments/>{review.comment_count}</p>
                             </ListItem>
                         </li>
                     )
