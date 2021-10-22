@@ -60,7 +60,7 @@ const Nav = () => {
                     <Link id='BQ-logo' to='/' onClick={() => setIsOpen(false)}>
                         BQ
                     </Link>
-                    <Link to='/' onClick={() => setIsOpen(false)}>
+                    <Link to='/reviews/submit' onClick={() => setIsOpen(false)}>
                         New
                     </Link>
                     <span onClick={() => toggleIsOpen('accountToggle', 'categoryToggle')}>

@@ -32,8 +32,10 @@ export const getCategories = async () => {
     return data.categories;
 }
 
-export const getComments = async (review_id) => {
-    const { data } = await reviewsApi.get(`/reviews/${review_id}/comments`);
+export const getComments = async (review_id, commentsExtended) => {
+    let limit = commentsExtended ? 100 : 10;
+
+    const { data } = await reviewsApi.get(`/reviews/${review_id}/comments`, {params: { limit } });
     return data.comments;
 }
 

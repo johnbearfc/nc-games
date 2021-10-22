@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { useState } from 'react';
 import styled from 'styled-components'
 import { UserContext } from '../contexts/User';
-import { postComment } from '../utils/api';
+import { getComments, postComment } from '../utils/api';
 
 const CommentWrapper = styled.div`
 
@@ -25,7 +25,7 @@ const CommentWrapper = styled.div`
     }
 `
 
-const PostComment = ({ review_id }) => {
+const PostComment = ({ review_id, setComments, setCommentCountChange }) => {
     const [commentInput, setCommentInput] = useState('');
     const { user } = useContext(UserContext);
 
@@ -34,11 +34,18 @@ const PostComment = ({ review_id }) => {
         // setErr(null);
 
         postComment(review_id, user.username, commentInput)
+        .then(() => {
+            return getComments(review_id)
+        })
+        .then((commentsFromApi) => {
+            setComments(commentsFromApi);
+            setCommentCountChange((currCountChange => currCountChange + 1));
+        })
+        setCommentInput('');
         // .catch((err) => {
         //     setErr('Something went wrong :(');
         // })
 
-        setCommentInput('');
     }
 
     return (
@@ -51,11 +58,8 @@ const PostComment = ({ review_id }) => {
                     id='comment' 
                     placeholder={user ? 'comment...' : 'log in to comment'} 
                     disabled={!user}
-                    onChange={(e) => {
-                        setCommentInput(e.target.value);
-                        // setErr(null);
-                    }
-                }
+                    value={commentInput}
+                    onChange={(e) => setCommentInput(e.target.value)} // setErr(null)
                 />
                 <button disabled={!user} type='submit'>Post</button>
             </form>

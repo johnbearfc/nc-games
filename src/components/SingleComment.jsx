@@ -3,9 +3,9 @@ import { DateTime } from 'luxon';
 import * as cg from 'react-icons/cg';
 import { useState } from 'react';
 import { UserContext } from '../contexts/User';
-import { deleteComment, patchCommentVotes } from '../utils/api';
+import { deleteComment, getComments, patchCommentVotes } from '../utils/api';
 
-const SingleComment = ({ comment }) => {
+const SingleComment = ({ comment, setComments, review_id, setCommentCountChange }) => {
     const [commentVoteChange, setCommentVoteChange] = useState(0);
     const { user } = useContext(UserContext);
 
@@ -19,7 +19,14 @@ const SingleComment = ({ comment }) => {
     }
 
     const handleDeleteComment = () => {
-        deleteComment(comment.comment_id);
+        deleteComment(comment.comment_id)
+        .then(() => {
+            return getComments(review_id)
+        })
+        .then((commentsFromApi) => {
+            setComments(commentsFromApi);
+            setCommentCountChange((currCountChange => currCountChange - 1));
+        })
     }
 
     return (
