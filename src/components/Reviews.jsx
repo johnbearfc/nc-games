@@ -1,134 +1,133 @@
-import React, { useState, useEffect } from 'react'
-import { useLocation } from 'react-router';
-import styled from 'styled-components';
-import { getReviews } from '../utils/api';
-import { Link } from 'react-router-dom';
-import * as fa from 'react-icons/fa';
-import * as cg from 'react-icons/cg';
-import { DateTime } from 'luxon';
-import { pagination } from '../utils/pagination';
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router";
+import styled from "styled-components";
+import { getReviews } from "../utils/api";
+import { Link } from "react-router-dom";
+import * as fa from "react-icons/fa";
+import * as cg from "react-icons/cg";
+import { pagination } from "../utils/pagination";
+import ReviewsList from "./ReviewsList";
 
 const ReviewsWrapper = styled.section`
-    margin: 60px auto;
-    width: 80%;
+  margin: 60px auto;
+  width: 80%;
 
-    h1 {
-        text-transform: capitalize;
-        text-align: center;
-        margin-bottom: 0;
-    }
+  h1 {
+    text-transform: capitalize;
+    text-align: center;
+    margin-bottom: 0;
+  }
 
-    .sort-list {
-        text-decoration: none;
-        display: flex;
-        justify-content: space-between;
-        list-style: none;
-        margin: 0;
-        padding: 10px;
-    }
-    
-    .sort-item {
-        text-decoration: none;
-    }
-`
-
-const ReviewsList = styled.ul`
-    list-style-type: none;
-    padding: 0;
-`
-
-const ListItem = styled.div`
-    background-color: lightgrey;
-    margin-bottom: 20px;
+  .sort-list {
+    text-decoration: none;
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    margin: 0;
     padding: 10px;
+  }
 
-    img {
-        max-width: 100%;
-    }
+  .sort-item {
+    text-decoration: none;
+  }
+`;
 
-    h3 {
-        font-size: 1.2rem;
-    }
-`
+const Reviews = ({
+  reviewData,
+  setReviewData,
+  loading,
+  setLoading,
+  err,
+  setErr,
+}) => {
+  const [page, setPage] = useState(1);
+  const { search } = useLocation();
+  const currentParams = new URLSearchParams(search);
+  const currentPage = currentParams.get("p");
+  const currentCategory = currentParams.get("category");
 
-const Reviews = ({ reviewData, setReviewData, loading, setLoading, err, setErr }) => {
-    const [page, setPage] = useState(1);
-    const { search } = useLocation();
-    const currentParams = new URLSearchParams(search);
-    const currentPage = currentParams.get('p');
-    const currentCategory = currentParams.get('category');
+  useEffect(() => {
+    setErr(null);
+    setPage(currentPage || 1);
 
-    useEffect(() => {
-        setErr(null);
-        setPage(currentPage || 1);
+    getReviews(search)
+      .then((reviewsFromApi) => {
+        setReviewData(reviewsFromApi);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        if (err.response.status === 404) setErr("Category not found");
+        else setErr("Something went wrong :(");
+      });
 
-        getReviews(search).then((reviewsFromApi) => {
-            setReviewData(reviewsFromApi);
-            setLoading(false);
-        })
-        .catch((err) => {
-            setLoading(false);
-            if (err.response.status === 404) setErr('Category not found');
-            else setErr('Something went wrong :(');
-        });
+    window.scrollTo(0, 0);
+  }, [search, page, currentPage, setReviewData, setLoading, setErr]);
 
-        window.scrollTo(0, 0);
-    }, [search, page, currentPage, setReviewData, setLoading, setErr]);
-
-    if (err) {
-        return (
-            <ReviewsWrapper>
-                <p>{err}</p>
-            </ReviewsWrapper>
-        );
-    }
-
+  if (err) {
     return (
-        <ReviewsWrapper>
-            <Link to={currentCategory ? `?category=${currentCategory}` : '/reviews'}>
-                <h1>{currentCategory || 'All'}</h1>
-            </Link>
-            <ul className='sort-list'>
-                <li>
-                    <Link className='sort-item' to={`?${currentCategory ? `category=${currentCategory}&` : ''}sort_by=created_at&order=DESC`}>
-                        <fa.FaRegCalendarAlt/><fa.FaLongArrowAltDown/>
-                    </Link>
-                </li>
-                <li>
-                    <Link className='sort-item' to={`?${currentCategory ? `category=${currentCategory}&` : ''}sort_by=created_at&order=ASC`}>
-                        <fa.FaRegCalendarAlt/><fa.FaLongArrowAltUp/>
-                    </Link>
-                </li>
-                <li>
-                    <Link className='sort-item' to={`?${currentCategory ? `category=${currentCategory}&` : ''}sort_by=votes&order=DESC`}>
-                        <cg.CgCardHearts/>
-                    </Link>
-                </li>
-                <li>
-                    <Link className='sort-item' to={`?${currentCategory ? `category=${currentCategory}&` : ''}sort_by=comment_count&order=DESC`}>
-                        <fa.FaRegComments/>
-                    </Link>
-                </li>
-            </ul>
-            <p>{loading && 'Loading...'}</p>
-            <ReviewsList>
-                {reviewData.reviews.map(review => {
-                    return (
-                        <li key={review.review_id}>
-                            <ListItem>
-                                <h3><Link to={`/reviews/${review.review_id}`}>{review.title}</Link></h3>
-                                <img src={review.review_img_url} alt={review.title}/>
-                                <p>{review.owner} | {DateTime.fromISO(review.created_at).toLocaleString()}</p>
-                                <p>{!currentCategory && <Link to={`/reviews?category=${review.category}`}>{review.category}</Link>}</p>
-                                <p><cg.CgCardHearts/>{review.votes} | <fa.FaRegComments/>{review.comment_count}</p>
-                            </ListItem>
-                        </li>
-                    )
-                })}
-            </ReviewsList>
-            {reviewData.total_count > 10 ? pagination(search, page, reviewData) : null}
-        </ReviewsWrapper>
-    )
-}
+      <ReviewsWrapper>
+        <p>{err}</p>
+      </ReviewsWrapper>
+    );
+  }
+
+  return (
+    <ReviewsWrapper>
+      <Link to={currentCategory ? `?category=${currentCategory}` : "/reviews"}>
+        <h1>{currentCategory || "All"}</h1>
+      </Link>
+      <ul className="sort-list">
+        <li>
+          <Link
+            className="sort-item"
+            to={`?${
+              currentCategory ? `category=${currentCategory}&` : ""
+            }sort_by=created_at&order=DESC`}
+          >
+            <fa.FaRegCalendarAlt />
+            <fa.FaLongArrowAltDown />
+          </Link>
+        </li>
+        <li>
+          <Link
+            className="sort-item"
+            to={`?${
+              currentCategory ? `category=${currentCategory}&` : ""
+            }sort_by=created_at&order=ASC`}
+          >
+            <fa.FaRegCalendarAlt />
+            <fa.FaLongArrowAltUp />
+          </Link>
+        </li>
+        <li>
+          <Link
+            className="sort-item"
+            to={`?${
+              currentCategory ? `category=${currentCategory}&` : ""
+            }sort_by=votes&order=DESC`}
+          >
+            <cg.CgCardHearts />
+          </Link>
+        </li>
+        <li>
+          <Link
+            className="sort-item"
+            to={`?${
+              currentCategory ? `category=${currentCategory}&` : ""
+            }sort_by=comment_count&order=DESC`}
+          >
+            <fa.FaRegComments />
+          </Link>
+        </li>
+      </ul>
+      <p>{loading && "Loading..."}</p>
+      <ReviewsList reviewData={reviewData} currentCategory={currentCategory} />
+      {reviewData.total_count > 10
+        ? pagination(search, page, reviewData)
+        : null}
+    </ReviewsWrapper>
+  );
+};
 
 export default Reviews;

@@ -1,8 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import App from './App';
-import { UserProvider } from './contexts/User';
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+import { UserProvider } from "./contexts/User";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -12,6 +12,5 @@ ReactDOM.render(
       </UserProvider>
     </BrowserRouter>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
-
