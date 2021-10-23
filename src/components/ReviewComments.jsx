@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { getComments } from "../utils/api";
 import PostComment from "./PostComment";
 import SingleComment from "./SingleComment";
+import { TransitionGroup } from "react-transition-group";
+import { Collapse } from "@mui/material";
 
 const CommentsWrapper = styled.section`
   margin-bottom: 40px;
@@ -29,9 +31,15 @@ const ReviewComments = ({ review_id, commentCount }) => {
   const [commentCountChange, setCommentCountChange] = useState(0);
 
   useEffect(() => {
+    let isMounted = true;
+
     getComments(review_id, commentsExtended).then((commentsFromApi) => {
-      setComments(commentsFromApi);
+      if (isMounted) setComments(commentsFromApi);
     });
+
+    return () => {
+      isMounted = false;
+    };
   }, [review_id, commentsExtended]);
 
   return (
@@ -43,18 +51,22 @@ const ReviewComments = ({ review_id, commentCount }) => {
       />
       <h3>Comments ({commentCount + commentCountChange})</h3>
       <ul>
-        {comments.map((comment) => {
-          return (
-            <li key={comment.comment_id}>
-              <SingleComment
-                review_id={review_id}
-                comment={comment}
-                setComments={setComments}
-                setCommentCountChange={setCommentCountChange}
-              />
-            </li>
-          );
-        })}
+        <TransitionGroup>
+          {comments.map((comment) => {
+            return (
+              <Collapse key={comment.comment_id}>
+                <li>
+                  <SingleComment
+                    review_id={review_id}
+                    comment={comment}
+                    setComments={setComments}
+                    setCommentCountChange={setCommentCountChange}
+                  />
+                </li>
+              </Collapse>
+            );
+          })}
+        </TransitionGroup>
       </ul>
       {commentCount + commentCountChange > 10 && (
         <button onClick={() => setCommentsExtended(!commentsExtended)}>

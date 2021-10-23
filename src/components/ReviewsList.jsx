@@ -11,12 +11,22 @@ const Wrapper = styled.section`
 `;
 
 const ListItem = styled.div`
-  background-color: lightgrey;
+  background-color: #84a59d;
+  color: #252422;
+
   margin-bottom: 20px;
-  padding: 10px;
+  border-radius: 5px;
+
+  .item-text {
+    padding: 5px;
+  }
+
+  -webkit-box-shadow: -5px 10px 19px -3px rgba(37, 36, 34, 0.46);
+  box-shadow: -5px 10px 19px -3px rgba(37, 36, 34, 0.46);
 
   img {
     max-width: 100%;
+    border-radius: 5px 5px 0 0;
   }
 
   h3 {
@@ -31,26 +41,38 @@ const ReviewsList = ({ reviewData, currentCategory }) => {
         return (
           <li key={review.review_id}>
             <ListItem>
-              <h3>
-                <Link to={`/reviews/${review.review_id}`}>{review.title}</Link>
-              </h3>
-              <img src={review.review_img_url} alt={review.title} />
-              <p>
-                {review.owner} |{" "}
-                {DateTime.fromISO(review.created_at).toLocaleString()}
-              </p>
-              <p>
-                {!currentCategory && (
-                  <Link to={`/reviews?category=${review.category}`}>
-                    {review.category}
+              <Link className="nav-link-w" to={`/reviews/${review.review_id}`}>
+                <img src={review.review_img_url} alt={review.title} />
+              </Link>
+              <section className="item-text">
+                <Link
+                  className="nav-link-w"
+                  to={`/reviews/${review.review_id}`}
+                >
+                  <h3>{review.title}</h3>
+                </Link>
+                <p>
+                  <Link className="nav-link-w" to={`/users/${review.owner}`}>
+                    {review.owner} |{" "}
                   </Link>
-                )}
-              </p>
-              <p>
-                <cg.CgCardHearts />
-                {review.votes} | <fa.FaRegComments />
-                {review.comment_count}
-              </p>
+                  {DateTime.fromISO(review.created_at).toLocaleString()}
+                </p>
+                <p>
+                  {!currentCategory && (
+                    <Link
+                      className="nav-link-w"
+                      to={`/reviews?category=${review.category}`}
+                    >
+                      {review.category}
+                    </Link>
+                  )}
+                </p>
+                <p>
+                  <cg.CgCardHearts />
+                  {review.votes} | <fa.FaRegComments />
+                  {review.comment_count}
+                </p>
+              </section>
             </ListItem>
           </li>
         );

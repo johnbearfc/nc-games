@@ -40,31 +40,42 @@ const ReviewWrapper = styled.section`
 
 const SelectedReview = ({ loading, setLoading, err, setErr }) => {
   const [review, setReview] = useState({});
-  const [reviewVoteChange, setReviewVoteChange] = useState(0);
+  const [reviewVoteChange, setReviewVoteChange] = useState(false);
   const [reviewDeleted, setReviewDeleted] = useState(false);
   const { review_id } = useParams();
   const { user } = useContext(UserContext);
 
   useEffect(() => {
     setErr(null);
+    setLoading(true);
+
+    let isMounted = true;
 
     getSingleReview(review_id)
       .then((reviewFromApi) => {
-        setReview(reviewFromApi);
-        setLoading(false);
+        if (isMounted) {
+          setReview(reviewFromApi);
+          setLoading(false);
+        }
       })
       .catch((err) => {
-        setLoading(false);
-        if (err.response.status === 404) setErr("Review not found");
-        else setErr("Something went wrong :(");
+        if (isMounted) {
+          setLoading(false);
+          if (err.response.status === 404) setErr("Review not found");
+          else setErr("Something went wrong :(");
+        }
       });
+
+    return () => {
+      isMounted = false;
+    };
   }, [review_id, setErr, setLoading]);
 
   const handleReviewVote = (e) => {
     e.preventDefault();
     if (!user) alert("log in to vote");
     else {
-      setReviewVoteChange((currVoteChange) => currVoteChange + 1);
+      setReviewVoteChange(true);
       patchReviewVotes(review_id);
     }
   };
@@ -109,7 +120,7 @@ const SelectedReview = ({ loading, setLoading, err, setErr }) => {
 
         <button className="votes" onClick={handleReviewVote}>
           <cg.CgCardHearts />
-          {review.votes + reviewVoteChange}
+          {review.votes + (reviewVoteChange ? 1 : 0)}
         </button>
 
         {user && review.owner === user ? (

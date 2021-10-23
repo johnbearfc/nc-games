@@ -5,14 +5,14 @@ import { UserContext } from "../contexts/User";
 
 const Wrapper = styled.section`
   .side-nav {
-    background-color: #472d30;
+    background: #f7ede2;
+    border-left: 2px solid #252422;
     width: 50%;
     height: 100vh;
     position: fixed;
-    top: 42px;
+    top: 52px;
     right: -100%;
     transition: 0.7s;
-    border-left: 2px solid #fffcf2;
 
     @media only screen and (min-width: 600px) {
       width: 20%;
@@ -40,7 +40,7 @@ const Wrapper = styled.section`
     align-items: center;
     padding: 8px 0px 8px 16px;
     list-style: none;
-    border-bottom: 1px solid #fffcf2;
+    border-bottom: 2px solid #252422;
   }
 `;
 
@@ -55,7 +55,7 @@ const AccountOptions = ({ isOpen, toggleIsOpen }) => {
             <li className="nav-option">
               <Link
                 to="/login"
-                className="navbar-link"
+                className="nav-link-w"
                 onClick={() => toggleIsOpen("accountToggle")}
               >
                 Log In / Create Account
@@ -67,7 +67,7 @@ const AccountOptions = ({ isOpen, toggleIsOpen }) => {
             <li className="nav-option">
               <Link
                 to={`/users/${user}`}
-                className="navbar-link"
+                className="nav-link-w"
                 onClick={() => toggleIsOpen("accountToggle")}
               >
                 Profile
@@ -75,7 +75,7 @@ const AccountOptions = ({ isOpen, toggleIsOpen }) => {
             </li>
             <li className="nav-option">
               <span
-                className="navbar-link"
+                className="nav-link-w"
                 onClick={() => {
                   toggleIsOpen("accountToggle");
                   setUser(null);

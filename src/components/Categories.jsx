@@ -4,14 +4,14 @@ import styled from "styled-components";
 
 const Wrapper = styled.section`
   .side-nav {
-    background-color: #472d30;
+    background: #f7ede2;
+    border-right: 2px solid #252422;
     width: 50%;
     height: 100vh;
     position: fixed;
-    top: 42px;
+    top: 52px;
     left: -100%;
     transition: 0.7s;
-    border-bottom: 2px solid #fffcf2;
 
     @media only screen and (min-width: 600px) {
       width: 20%;
@@ -42,7 +42,7 @@ const Categories = ({ isOpen, toggleIsOpen, categories }) => {
           <li className="nav-option">
             <Link
               to={"/reviews/"}
-              className="navbar-link"
+              className="nav-link-w"
               onClick={() => toggleIsOpen("categoryToggle")}
             >
               All
@@ -53,7 +53,7 @@ const Categories = ({ isOpen, toggleIsOpen, categories }) => {
               <li className="nav-option" key={category.slug}>
                 <Link
                   to={`/reviews?category=${category.slug}`}
-                  className="navbar-link"
+                  className="nav-link-w"
                   onClick={() => toggleIsOpen("categoryToggle")}
                 >
                   {category.slug}

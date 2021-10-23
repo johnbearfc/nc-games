@@ -11,7 +11,7 @@ import { UserProfile } from "./components/UserProfile";
 import { UserContext } from "./contexts/User";
 
 const AppWrapper = styled.main`
-  background-color: #fffcf2;
+  background: #f7ede2;
   color: #252422;
 
   font-family: georgia;
@@ -24,6 +24,11 @@ const AppWrapper = styled.main`
   }
 
   .nav-link {
+    color: #252422;
+    text-decoration: none;
+  }
+
+  .nav-link-w {
     color: #252422;
     text-decoration: none;
   }

@@ -11,14 +11,14 @@ const SingleComment = ({
   review_id,
   setCommentCountChange,
 }) => {
-  const [commentVoteChange, setCommentVoteChange] = useState(0);
+  const [commentVoteChange, setCommentVoteChange] = useState(false);
   const { user } = useContext(UserContext);
 
   const handleCommentVote = (e) => {
     e.preventDefault();
     if (!user) alert("log in to vote");
     else {
-      setCommentVoteChange((currVoteChange) => currVoteChange + 1);
+      setCommentVoteChange(true);
       patchCommentVotes(comment.comment_id);
     }
   };
@@ -48,7 +48,7 @@ const SingleComment = ({
       ) : null}
       <button className="votes" onClick={handleCommentVote}>
         <cg.CgCardHearts />
-        {comment.votes + commentVoteChange}
+        {comment.votes + (commentVoteChange ? 1 : 0)}
       </button>
     </div>
   );

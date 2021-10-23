@@ -74,13 +74,16 @@ const Reviews = ({
 
   return (
     <ReviewsWrapper>
-      <Link to={currentCategory ? `?category=${currentCategory}` : "/reviews"}>
+      <Link
+        className="nav-link"
+        to={currentCategory ? `?category=${currentCategory}` : "/reviews"}
+      >
         <h1>{currentCategory || "All"}</h1>
       </Link>
       <ul className="sort-list">
         <li>
           <Link
-            className="sort-item"
+            className="sort-item nav-link"
             to={`?${
               currentCategory ? `category=${currentCategory}&` : ""
             }sort_by=created_at&order=DESC`}
@@ -91,7 +94,7 @@ const Reviews = ({
         </li>
         <li>
           <Link
-            className="sort-item"
+            className="sort-item nav-link"
             to={`?${
               currentCategory ? `category=${currentCategory}&` : ""
             }sort_by=created_at&order=ASC`}
@@ -102,7 +105,7 @@ const Reviews = ({
         </li>
         <li>
           <Link
-            className="sort-item"
+            className="sort-item nav-link"
             to={`?${
               currentCategory ? `category=${currentCategory}&` : ""
             }sort_by=votes&order=DESC`}
@@ -112,7 +115,7 @@ const Reviews = ({
         </li>
         <li>
           <Link
-            className="sort-item"
+            className="sort-item nav-link"
             to={`?${
               currentCategory ? `category=${currentCategory}&` : ""
             }sort_by=comment_count&order=DESC`}

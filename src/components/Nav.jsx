@@ -29,22 +29,17 @@ const StyledNav = styled.nav`
 `;
 
 const NavWrapper = styled.section`
-  .navbar-link {
-    color: #fffcf2;
-    text-decoration: none;
-  }
-
   display: inline-grid;
   grid-template-columns: 10% auto;
-  background-color: #472d30;
-  padding: 10px 15px 10px 15px;
+  background-color: #f7ede2;
+  padding: 15px 15px 15px 15px;
   width: 100%;
   position: fixed;
   top: 0;
   margin: 0 auto;
   left: 0;
   right: 0;
-  border-bottom: 2px solid #fffcf2;
+  border-bottom: 2px solid #252422;
 
   .nav-option {
     display: flex;
@@ -52,7 +47,7 @@ const NavWrapper = styled.section`
     align-items: center;
     padding: 8px 0px 8px 16px;
     list-style: none;
-    border-bottom: 1px solid #fffcf2;
+    border-bottom: 1px solid #252422;
   }
 `;
 
@@ -80,7 +75,7 @@ const Nav = () => {
   return (
     <>
       <NavWrapper>
-        <span className="navbar-link">
+        <span className="nav-link-w">
           {/* GiSpellBook */}
           <gi.GiRuleBook
             onClick={() => toggleIsOpen("categoryToggle", "accountToggle")}
@@ -89,14 +84,14 @@ const Nav = () => {
         <StyledNav>
           <Link
             id="BQ-logo"
-            className="navbar-link"
+            className="nav-link-w"
             to="/"
             onClick={() => setIsOpen(false)}
           >
             Board Quest
           </Link>
           <Link
-            className="navbar-link"
+            className="nav-link-w"
             to={
               !user
                 ? "/login"
@@ -110,7 +105,7 @@ const Nav = () => {
             <gi.GiQuillInk />
           </Link>
           <span
-            className="navbar-link"
+            className="nav-link-w"
             onClick={() => toggleIsOpen("accountToggle", "categoryToggle")}
           >
             <fa.FaChessPawn />

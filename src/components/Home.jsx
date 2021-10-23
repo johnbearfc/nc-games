@@ -9,14 +9,22 @@ import ReviewsList from "./ReviewsList";
 const Wrapper = styled.section`
   header {
     font-family: "IM Fell English SC", serif;
-    font-size: 2.5rem;
+    font-size: 3.5rem;
     line-height: 0;
+    background-color: #84a59d;
 
-    width: 80%;
-    margin: auto;
-    padding-top: 96px;
+    -webkit-box-shadow: -5px 10px 19px -3px rgba(37, 36, 34, 0.46);
+    box-shadow: -5px 10px 19px -3px rgba(37, 36, 34, 0.46);
+
+    border-radius: 0 0 15px 15px;
+
+    margin-bottom: 30px;
     padding-bottom: 25px;
     text-align: center;
+    padding-top: 50px;
+
+    #dice {
+    }
 
     #board {
       padding-right: 30px;
@@ -35,8 +43,6 @@ const Wrapper = styled.section`
   .featured-reviews {
     width: 80%;
     margin: auto;
-    border: 1px solid;
-    border-radius: 5px;
     padding: 5px;
   }
 `;
@@ -70,20 +76,21 @@ const Home = ({
   return (
     <Wrapper>
       <header>
+        {user && <p id="welcome-message">Welcome, {user}</p>}
         <h1 id="board">Board</h1>
         <h1 id="quest">Quest</h1>
         <Link
           className="nav-link"
+          id="dice"
           to={`/reviews/${Math.ceil(
-            Math.random() * Number(reviewData.total_count)
+            Math.random() * (Number(reviewData.total_count) - 1)
           )}`}
         >
           <gi.GiPerspectiveDiceSixFacesThree />
         </Link>
-        {user && <p id="welcome-message">Welcome, {user}</p>}
       </header>
       <section className="featured-reviews">
-        <h2>Featured Reviews:</h2>
+        <h2>Featured Reviews</h2>
         <p>{loading && "Loading..."}</p>
         <p>{err && err}</p>
         <ReviewsList reviewData={reviewData} />
