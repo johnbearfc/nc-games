@@ -9,8 +9,15 @@ import { pagination } from "../utils/pagination";
 import ReviewsList from "./ReviewsList";
 
 const ReviewsWrapper = styled.section`
-  margin: 60px auto;
-  width: 80%;
+  margin: auto;
+  padding-top: 40px;
+  @media only screen and (min-width: 600px) {
+    width: 55%;
+  }
+
+  @media only screen and (max-width: 600px) {
+    width: 80%;
+  }
 
   h1 {
     text-transform: capitalize;

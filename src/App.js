@@ -13,7 +13,6 @@ import { UserContext } from "./contexts/User";
 const AppWrapper = styled.main`
   background: #f7ede2;
   color: #252422;
-
   font-family: georgia;
 
   h1,

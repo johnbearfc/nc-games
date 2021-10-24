@@ -6,35 +6,80 @@ import { DateTime } from "luxon";
 import styled from "styled-components";
 import ReviewComments from "./ReviewComments";
 import * as cg from "react-icons/cg";
+import * as fa from "react-icons/fa";
 import { UserContext } from "../contexts/User";
+import { IconButton } from "@mui/material";
 
 const ReviewWrapper = styled.section`
-  margin: 50px 0 20px 0;
+  background: #84a59d;
+  margin: auto;
+  padding: 40px 0 40px 0;
+  height: 100%;
+  @media only screen and (min-width: 600px) {
+    width: 70%;
+  }
+
+  -webkit-box-shadow: -5px 10px 19px -3px rgba(37, 36, 34, 0.46);
+  box-shadow: -5px 10px 19px -3px rgba(37, 36, 34, 0.46);
+
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+  }
 
   .review-section {
+    @media only screen and (max-width: 600px) {
+      margin: 10px;
+      padding: 6px;
+      -webkit-box-shadow: -5px 10px 19px -3px rgba(37, 36, 34, 0.46);
+      box-shadow: -5px 10px 19px -3px rgba(37, 36, 34, 0.46);
+    }
+    border-radius: 5px;
+    margin: 30px;
     padding: 10px;
+    background: white;
+  }
+
+  h1 {
+    font-size: 2rem;
   }
 
   img {
     max-width: 100%;
+    border-radius: 5px;
   }
 
   h3 {
     font-size: 1.2rem;
   }
 
-  .review-body {
-    background-color: white;
-    padding: 5px;
+  .votes:hover,
+  .voted:hover {
+    color: white;
+    background-color: #bf4f47;
+    border: 1px solid #bf4f47;
   }
 
   .votes {
-    border: 1px solid;
+    position: static;
     border-radius: 5px;
-    padding: 5px;
-    width: 20%;
-    margin-left: 80%;
+    border: 1px solid;
+    margin: 5px;
     text-align: center;
+    -webkit-box-shadow: 0px 10px 13px -7px #000000,
+      5px 5px 15px 5px rgba(0, 0, 0, 0);
+    box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0, 0, 0, 0);
+  }
+  .voted {
+    position: static;
+    color: white;
+    background-color: #bf4f47;
+    border-radius: 5px;
+    border: 1px solid #bf4f47;
+    margin: 5px;
+    text-align: center;
+    -webkit-box-shadow: 0px 10px 13px -7px #000000,
+      5px 5px 15px 5px rgba(0, 0, 0, 0);
+    box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0, 0, 0, 0);
   }
 `;
 
@@ -108,20 +153,28 @@ const SelectedReview = ({ loading, setLoading, err, setErr }) => {
         <h1>{review.title}</h1>
         <img src={review.review_img_url} alt={review.title} />
         <p>
+          <fa.FaChessPawn />
           {review.owner} |{" "}
           {DateTime.fromISO(review.created_at).toLocaleString()}
         </p>
         <p>
-          <Link to={`/reviews?category=${review.category}`}>
+          <Link
+            to={`/reviews?category=${review.category}`}
+            className="nav-link"
+          >
             {review.category}
           </Link>
         </p>
         <p className="review-body">{review.review_body}</p>
 
-        <button className="votes" onClick={handleReviewVote}>
+        <IconButton
+          aria-label="delete"
+          onClick={handleReviewVote}
+          className={reviewVoteChange ? "voted" : "votes"}
+        >
           <cg.CgCardHearts />
           {review.votes + (reviewVoteChange ? 1 : 0)}
-        </button>
+        </IconButton>
 
         {user && review.owner === user ? (
           <button onClick={handleDeleteReview}>Delete</button>

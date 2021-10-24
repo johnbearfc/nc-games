@@ -9,7 +9,7 @@ const Wrapper = styled.section`
     width: 50%;
     height: 100vh;
     position: fixed;
-    top: 52px;
+    top: 45px;
     left: -100%;
     transition: 0.7s;
 

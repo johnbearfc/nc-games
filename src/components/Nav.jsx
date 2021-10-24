@@ -9,30 +9,71 @@ import AccountOptions from "./AccountOptions";
 import { UserContext } from "../contexts/User";
 import { getCategories } from "../utils/api";
 
+const BackgroundBlur = styled.div`
+  .blurred {
+    position: fixed;
+    z-index: 1;
+    background: white;
+    filter: blur(500px);
+    height: 100vh;
+    width: 100%;
+    pointer-events: none;
+  }
+  .not-blurred {
+    position: fixed;
+    z-index: 1;
+    background: white;
+    filter: blur(500px);
+    height: 100vh;
+    width: 100%;
+    pointer-events: none;
+  }
+`;
+
 const StyledNav = styled.nav`
-  font-size: 1rem;
+  font-size: 1.2rem;
   width: 100%;
 
   #BQ-logo {
     font-family: "IM Fell English SC", serif;
+    grid-area: g3;
+    text-align: center;
+    font-size: 1rem;
+  }
+
+  #reviews {
+    grid-area: g1;
+  }
+
+  #new-review {
+    grid-area: g5;
+  }
+
+  #account {
+    grid-area: g6;
   }
 
   @media only screen and (min-width: 600px) {
-    display: inline-grid;
-    grid-template-columns: 75% auto auto;
+    display: grid;
+    grid-template-columns: 1fr 3fr 1.5fr 3.2fr 0.5fr 0.5fr;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-template-areas: "g1 . g3 . g5 g6";
   }
 
   @media only screen and (max-width: 600px) {
-    display: inline-grid;
-    grid-template-columns: 65% auto auto;
+    display: grid;
+    grid-template-columns: 1fr 1.75fr 3.5fr 1.75fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-template-areas: "g1 . g3 . g5 g6";
   }
 `;
 
 const NavWrapper = styled.section`
-  display: inline-grid;
-  grid-template-columns: 10% auto;
+  z-index: 2;
   background-color: #f7ede2;
-  padding: 15px 15px 15px 15px;
+  padding: 10px 15px 10px 15px;
   width: 100%;
   position: fixed;
   top: 0;
@@ -71,17 +112,17 @@ const Nav = () => {
 
       return setToggle;
     });
-
+  console.log(isOpen);
   return (
     <>
       <NavWrapper>
-        <span className="nav-link-w">
-          {/* GiSpellBook */}
-          <gi.GiRuleBook
-            onClick={() => toggleIsOpen("categoryToggle", "accountToggle")}
-          />
-        </span>
         <StyledNav>
+          <span className="nav-link-w" id="reviews">
+            {/* GiSpellBook */}
+            <gi.GiRuleBook
+              onClick={() => toggleIsOpen("categoryToggle", "accountToggle")}
+            />
+          </span>
           <Link
             id="BQ-logo"
             className="nav-link-w"
@@ -92,6 +133,7 @@ const Nav = () => {
           </Link>
           <Link
             className="nav-link-w"
+            id="new-review"
             to={
               !user
                 ? "/login"
@@ -106,6 +148,7 @@ const Nav = () => {
           </Link>
           <span
             className="nav-link-w"
+            id="account"
             onClick={() => toggleIsOpen("accountToggle", "categoryToggle")}
           >
             <fa.FaChessPawn />
@@ -118,6 +161,11 @@ const Nav = () => {
           categories={categories}
         />
       </NavWrapper>
+      <BackgroundBlur>
+        <div
+          className={isOpen.categoryToggle ? "blurred" : "not-blurred"}
+        ></div>
+      </BackgroundBlur>
     </>
   );
 };

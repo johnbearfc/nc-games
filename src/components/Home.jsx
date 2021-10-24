@@ -41,7 +41,14 @@ const Wrapper = styled.section`
   }
 
   .featured-reviews {
-    width: 80%;
+    @media only screen and (min-width: 600px) {
+      width: 55%;
+    }
+
+    @media only screen and (max-width: 600px) {
+      width: 80%;
+    }
+
     margin: auto;
     padding: 5px;
   }

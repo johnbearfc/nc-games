@@ -10,9 +10,10 @@ const Wrapper = styled.section`
     width: 50%;
     height: 100vh;
     position: fixed;
-    top: 52px;
+    top: 45px;
     right: -100%;
     transition: 0.7s;
+    z-index: 2;
 
     @media only screen and (min-width: 600px) {
       width: 20%;

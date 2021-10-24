@@ -53,6 +53,7 @@ const ReviewsList = ({ reviewData, currentCategory }) => {
                 </Link>
                 <p>
                   <Link className="nav-link-w" to={`/users/${review.owner}`}>
+                    <fa.FaChessPawn />
                     {review.owner} |{" "}
                   </Link>
                   {DateTime.fromISO(review.created_at).toLocaleString()}

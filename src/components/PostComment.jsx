@@ -1,3 +1,4 @@
+import { Button, TextField } from "@mui/material";
 import React, { useContext } from "react";
 import { useState } from "react";
 import styled from "styled-components";
@@ -5,10 +6,14 @@ import { UserContext } from "../contexts/User";
 import { getComments, postComment } from "../utils/api";
 
 const CommentWrapper = styled.div`
-  background-color: grey;
+  background-color: #5a736d;
   width: 100%;
+  border-radius: 5px;
+
+  margin-top: 10px;
 
   @media only screen and (max-width: 600px) {
+    margin-top: 0px;
     position: fixed;
     bottom: 0;
     left: 0;
@@ -19,7 +24,14 @@ const CommentWrapper = styled.div`
     padding: 10px;
     display: flex;
   }
-  input {
+
+  .className {
+    white
+  }
+
+  .input-field {
+    background: white;
+    border-radius: 5px;
     width: 100%;
   }
 `;
@@ -50,18 +62,24 @@ const PostComment = ({ review_id, setComments, setCommentCountChange }) => {
     <CommentWrapper id="comment-box">
       <form onSubmit={handleSubmit}>
         <label htmlFor="comment" />
-        <input
-          required
-          type="text"
+        <TextField
+          className="input-field"
+          size="small"
           id="comment"
+          variant="outlined"
           placeholder={user ? "comment..." : "log in to comment"}
           disabled={!user}
           value={commentInput}
-          onChange={(e) => setCommentInput(e.target.value)} // setErr(null)
+          onChange={(e) => setCommentInput(e.target.value)}
         />
-        <button disabled={!user} type="submit">
+        <Button
+          variant="contained"
+          disabled={!user}
+          className="post-b"
+          type="submit"
+        >
           Post
-        </button>
+        </Button>
       </form>
     </CommentWrapper>
   );

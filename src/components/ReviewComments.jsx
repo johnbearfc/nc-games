@@ -20,8 +20,6 @@ const CommentsWrapper = styled.section`
   }
 
   .comment-body {
-    padding: 5px;
-    background-color: white;
   }
 `;
 
