@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import * as gr from "react-icons/gr";
 
 const PagesWrapper = styled.nav`
   display: flex;
