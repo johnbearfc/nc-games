@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import * as gr from "react-icons/gr";
 
-const PagesWrapper = styled.nav``;
+const PagesWrapper = styled.nav`
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 20px;
+`;
 
 export const pagination = (search, page, reviewData) => {
   const totalPages = Math.ceil(reviewData.total_count / 10);

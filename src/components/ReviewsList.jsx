@@ -36,11 +36,11 @@ const ListItem = styled.div`
 
 const ReviewsList = ({ reviewData, currentCategory }) => {
   return (
-    <Wrapper>
-      {reviewData.reviews.map((review) => {
+    <Wrapper className="review-box">
+      {reviewData.reviews.map((review, index) => {
         return (
           <li key={review.review_id}>
-            <ListItem>
+            <ListItem id={`review-${index + 1}`}>
               <Link className="nav-link-w" to={`/reviews/${review.review_id}`}>
                 <img src={review.review_img_url} alt={review.title} />
               </Link>
