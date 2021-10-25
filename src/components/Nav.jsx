@@ -9,27 +9,6 @@ import AccountOptions from "./AccountOptions";
 import { UserContext } from "../contexts/User";
 import { getCategories } from "../utils/api";
 
-const BackgroundBlur = styled.div`
-  .blurred {
-    position: fixed;
-    z-index: 1;
-    background: white;
-    filter: blur(500px);
-    height: 100vh;
-    width: 100%;
-    pointer-events: none;
-  }
-  .not-blurred {
-    position: fixed;
-    z-index: 1;
-    background: white;
-    filter: blur(500px);
-    height: 100vh;
-    width: 100%;
-    pointer-events: none;
-  }
-`;
-
 const StyledNav = styled.nav`
   font-size: 1.2rem;
   width: 100%;
@@ -112,7 +91,7 @@ const Nav = () => {
 
       return setToggle;
     });
-  console.log(isOpen);
+
   return (
     <>
       <NavWrapper>
@@ -161,11 +140,6 @@ const Nav = () => {
           categories={categories}
         />
       </NavWrapper>
-      <BackgroundBlur>
-        <div
-          className={isOpen.categoryToggle ? "blurred" : "not-blurred"}
-        ></div>
-      </BackgroundBlur>
     </>
   );
 };

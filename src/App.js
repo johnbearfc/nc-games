@@ -15,6 +15,11 @@ const AppWrapper = styled.main`
   color: #252422;
   font-family: georgia;
 
+  .review-info {
+    font-size: 0.8rem;
+    color: #494d4b;
+  }
+
   h1,
   h2,
   h3,
@@ -30,6 +35,12 @@ const AppWrapper = styled.main`
   .nav-link-w {
     color: #252422;
     text-decoration: none;
+  }
+
+  .input-field {
+    background: white;
+    border-radius: 5px;
+    width: 100%;
   }
 `;
 

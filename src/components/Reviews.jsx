@@ -23,6 +23,7 @@ const ReviewsWrapper = styled.section`
     text-transform: capitalize;
     text-align: center;
     margin-bottom: 0;
+    font-size: 2.5rem;
   }
 
   .sort-list {
@@ -35,7 +36,9 @@ const ReviewsWrapper = styled.section`
   }
 
   .sort-item {
+    color: #252422;
     text-decoration: none;
+    font-size: 1.5rem;
   }
 `;
 

@@ -29,11 +29,7 @@ const CommentWrapper = styled.div`
     white
   }
 
-  .input-field {
-    background: white;
-    border-radius: 5px;
-    width: 100%;
-  }
+  
 `;
 
 const PostComment = ({ review_id, setComments, setCommentCountChange }) => {

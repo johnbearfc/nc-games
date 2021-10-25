@@ -152,18 +152,18 @@ const SelectedReview = ({ loading, setLoading, err, setErr }) => {
       <section className="review-section">
         <h1>{review.title}</h1>
         <img src={review.review_img_url} alt={review.title} />
-        <p>
-          <fa.FaChessPawn />
-          {review.owner} |{" "}
-          {DateTime.fromISO(review.created_at).toLocaleString()}
-        </p>
-        <p>
-          <Link
-            to={`/reviews?category=${review.category}`}
-            className="nav-link"
-          >
-            {review.category}
+        <p className="review-info">
+          <Link to={`/users/${review.owner}`} className="review-info">
+            <fa.FaChessPawn />
+            {review.owner} |{" "}
           </Link>
+          <Link
+            className="review-info"
+            to={`/reviews?category=${review.category}`}
+          >
+            {review.category}{" "}
+          </Link>{" "}
+          | {DateTime.fromISO(review.created_at).toLocaleString()}
         </p>
         <p className="review-body">{review.review_body}</p>
 

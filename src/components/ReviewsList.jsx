@@ -51,22 +51,20 @@ const ReviewsList = ({ reviewData, currentCategory }) => {
                 >
                   <h3>{review.title}</h3>
                 </Link>
-                <p>
-                  <Link className="nav-link-w" to={`/users/${review.owner}`}>
+                <p className="review-info">
+                  <Link to={`/users/${review.owner}`} className="review-info">
                     <fa.FaChessPawn />
                     {review.owner} |{" "}
                   </Link>
-                  {DateTime.fromISO(review.created_at).toLocaleString()}
-                </p>
-                <p>
                   {!currentCategory && (
                     <Link
-                      className="nav-link-w"
+                      className="review-info"
                       to={`/reviews?category=${review.category}`}
                     >
-                      {review.category}
+                      {review.category}{" "}
                     </Link>
-                  )}
+                  )}{" "}
+                  | {DateTime.fromISO(review.created_at).toLocaleString()}
                 </p>
                 <p>
                   <cg.CgCardHearts />

@@ -42,7 +42,7 @@ const SingleComment = ({
         <fa.FaChessPawn />
         {comment.author}
       </p>
-      <p>
+      <p className="review-info">
         {DateTime.fromISO(comment.created_at).toLocaleString(
           DateTime.DATETIME_FULL
         )}

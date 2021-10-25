@@ -1,3 +1,4 @@
+import { TextField } from "@mui/material";
 import React, { useContext } from "react";
 import { useState } from "react";
 import { Redirect } from "react-router";
@@ -6,11 +7,24 @@ import { UserContext } from "../contexts/User";
 import { getUser } from "../utils/api";
 
 const Wrapper = styled.section`
-  margin: 60px auto;
-  width: 80%;
+  margin: auto;
+  padding: 40px 40px 100vh 40px;
+  height: 100%;
+  background: #84a59d;
+
+  -webkit-box-shadow: -5px 10px 19px -3px rgba(37, 36, 34, 0.46);
+  box-shadow: -5px 10px 19px -3px rgba(37, 36, 34, 0.46);
+
+  @media only screen and (min-width: 600px) {
+    width: 50%;
+  }
 
   label {
     display: block;
+  }
+
+  button {
+    margin: 5px 0 5px 0;
   }
 `;
 
@@ -38,10 +52,13 @@ const LogIn = ({ err, setErr }) => {
   return (
     <Wrapper>
       <h2>Log In</h2>
-      <p>(test user: tickle122)</p>
+      <p>(test user: jessjelly)</p>
       <form onSubmit={handleSubmit}>
         <label htmlFor="username">Username:</label>
-        <input
+        <TextField
+          className="input-field"
+          variant="outlined"
+          size="small"
           required
           type="text"
           id="username"
