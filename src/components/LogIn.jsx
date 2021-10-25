@@ -1,5 +1,5 @@
 import { TextField } from "@mui/material";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import { Redirect } from "react-router";
 import styled from "styled-components";
@@ -31,6 +31,10 @@ const Wrapper = styled.section`
 const LogIn = ({ err, setErr }) => {
   const [usernameInput, setUsernameInput] = useState("");
   const { user, setUser } = useContext(UserContext);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();

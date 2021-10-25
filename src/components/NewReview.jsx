@@ -1,5 +1,5 @@
 import { TextField } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Redirect, useLocation } from "react-router";
 import styled from "styled-components";
 import { UserContext } from "../contexts/User";
@@ -55,6 +55,10 @@ const NewReview = ({ err, setErr }) => {
   const { user } = useContext(UserContext);
   const location = useLocation();
   const { categories } = location.state;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();

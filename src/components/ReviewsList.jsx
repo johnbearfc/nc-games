@@ -54,17 +54,17 @@ const ReviewsList = ({ reviewData, currentCategory }) => {
                 <p className="review-info">
                   <Link to={`/users/${review.owner}`} className="review-info">
                     <fa.FaChessPawn />
-                    {review.owner} |{" "}
+                    {review.owner} |
                   </Link>
                   {!currentCategory && (
                     <Link
                       className="review-info"
                       to={`/reviews?category=${review.category}`}
                     >
-                      {review.category}{" "}
+                      {review.category} |
                     </Link>
-                  )}{" "}
-                  | {DateTime.fromISO(review.created_at).toLocaleString()}
+                  )}
+                  {DateTime.fromISO(review.created_at).toLocaleString()}
                 </p>
                 <p>
                   <cg.CgCardHearts />
