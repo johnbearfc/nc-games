@@ -50,10 +50,18 @@ export const UserProfile = () => {
   const [selectedUser, setSelectedUser] = useState({});
 
   useEffect(() => {
+    let isMounted = true;
+
     getUser(username).then((userFromApi) => {
-      setSelectedUser(userFromApi);
+      if (isMounted) setSelectedUser(userFromApi);
     });
-  });
+
+    window.scrollTo(0, 0);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [username]);
   return (
     <Wrapper>
       <main>
