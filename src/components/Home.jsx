@@ -23,7 +23,13 @@ const Wrapper = styled.section`
     text-align: center;
     padding-top: 50px;
 
+    #dice:hover {
+      transition: 0.5s;
+      color: white;
+    }
+
     #dice {
+      transition: 0.5s;
     }
 
     #board {
