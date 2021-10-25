@@ -73,3 +73,8 @@ export const postReview = async (reviewInput, username) => {
 export const deleteReview = async (review_id) => {
   await reviewsApi.delete(`/reviews/${review_id}`);
 };
+
+export const postUser = async (username, name) => {
+  const { data } = await reviewsApi.post(`/users`, { username, name });
+  return data.user;
+};
